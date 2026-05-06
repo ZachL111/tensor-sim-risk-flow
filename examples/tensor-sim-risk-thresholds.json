@@ -1,0 +1,17 @@
+{
+  "repo": "tensor-sim-risk-flow",
+  "thresholds": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 2,
+    "drag": 4,
+    "ship": 176,
+    "watch": 108
+  },
+  "terms": [
+    "input pressure",
+    "state drift",
+    "review cost",
+    "decision risk"
+  ]
+}
