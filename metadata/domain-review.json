@@ -1,0 +1,73 @@
+{
+  "repo": "tensor-sim-risk-flow",
+  "language": "C#",
+  "category": "Simulations",
+  "goal": "Create a C# reference implementation for risk workflows, centered on policy evaluation, deny and allow fixtures, and explainable decision traces.",
+  "review_model": {
+    "terms": [
+      "input pressure",
+      "state drift",
+      "review cost",
+      "decision risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "input pressure",
+      "signal": 45,
+      "slack": 54,
+      "drag": 8,
+      "confidence": 71,
+      "score": 191,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "state drift",
+      "signal": 79,
+      "slack": 33,
+      "drag": 10,
+      "confidence": 51,
+      "score": 212,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "review cost",
+      "signal": 55,
+      "slack": 20,
+      "drag": 9,
+      "confidence": 46,
+      "score": 149,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "decision risk",
+      "signal": 86,
+      "slack": 26,
+      "drag": 9,
+      "confidence": 57,
+      "score": 228,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "input pressure",
+      "signal": 56,
+      "slack": 29,
+      "drag": 15,
+      "confidence": 48,
+      "score": 144,
+      "lane": "ship"
+    }
+  ]
+}

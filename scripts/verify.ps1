@@ -59,3 +59,5 @@ foreach ($pathPattern in $knownPaths) {
 }
 
 dotnet run -- --test
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-tensor-sim-risk-detail.ps1

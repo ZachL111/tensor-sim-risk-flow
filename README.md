@@ -1,40 +1,29 @@
 # tensor-sim-risk-flow
 
-`tensor-sim-risk-flow` is a C# project for Simulations. It turns create a C# reference implementation for risk workflows, centered on policy evaluation, deny and allow fixtures, and explainable decision traces into a small local model with readable fixtures and a direct verification command.
+`tensor-sim-risk-flow` is a C# project in simulations. Its focus is to create a C# reference implementation for risk workflows, centered on policy evaluation, deny and allow fixtures, and explainable decision traces.
 
-## Reading Tensor Sim Risk Flow
+## Why It Exists
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Purpose
+## Tensor Sim Risk Flow Review Notes
 
-The repository exists to keep a technical idea small enough to reason about. The implementation avoids external dependencies where possible, then uses fixtures to make changes easy to review.
+Start with `decision risk` and `input pressure`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## What It Does
+## Features
 
-- Models input state with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep policy checks changes visible in code review.
-- Includes extended examples for fixture data, including `surge` and `degraded`.
-- Documents local reports tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
+- `fixtures/domain_review.csv` adds cases for input pressure and state drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/tensor-sim-risk-walkthrough.md` walks through the case spread.
+- The C# code includes a review path for `decision risk` and `input pressure`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Design Sketch
+## Architecture Notes
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The C# code keeps the core model in a small static API and runs checks through the executable path.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Files Worth Reading
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Setup
-
-Install C# and run the commands from the repository root. The project does not need credentials or a hosted service.
+The C# addition stays small enough to inspect in one sitting.
 
 ## Usage
 
@@ -42,27 +31,10 @@ Install C# and run the commands from the repository root. The project does not n
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
 
-## Verification
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 228, which lands in `ship`. The most cautious case is `stale` at 144, which lands in `ship`.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Limitations And Roadmap
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Fixture Notes
-
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Limits
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Next Directions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more simulations fixture that focuses on a malformed or borderline input.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.
